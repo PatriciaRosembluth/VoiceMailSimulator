@@ -6,6 +6,7 @@ import java.util.Scanner;
 */
 public class Telephone
 {
+   private Scanner scanner;
    /**
       Construct phone object.
       @param aScanner that reads text from a character-input stream
@@ -48,6 +49,4 @@ public class Telephone
             c.record(input);
       }
    }
-
-   private Scanner scanner;
 }

@@ -14,7 +14,6 @@ public class MailSystem
       mailboxes = new ArrayList<Mailbox>();
 
       // Initialize mail boxes.
-
       for (int i = 0; i < mailboxCount; i++)
       {
          String passcode = "" + (i + 1);
