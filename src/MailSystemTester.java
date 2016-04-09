@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
    This program tests the mail system. A single phone
@@ -12,9 +14,14 @@ public class MailSystemTester
    {
       MailSystem system = new MailSystem(MAILBOX_COUNT);
       Scanner console = new Scanner(System.in);
-      Telephone p = new Telephone(console);
-      Connection c = new Connection(system, p);
-      p.run(c);
+      List<UserInterface> uis = new ArrayList<UserInterface>();
+      UserInterface consola = new Telephone(console);
+      GUIVoiceMail window = new GUIVoiceMail();
+      window.getJframe().setVisible(true);
+      uis.add(window);
+      uis.add(consola);
+      Connection c = new Connection(system, uis);        
+      consola.run(c);
    }
    
 }

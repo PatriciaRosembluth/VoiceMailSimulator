@@ -1,5 +1,6 @@
-/**
-   Connects a phone to the mail system. The purpose of this
+import java.util.ArrayList;
+import java.util.List;
+/**Connects a phone to the mail system. The purpose of this
    class is to keep track of the state of a connection, since
    the phone itself is just a source of individual key presses.
 */
@@ -9,8 +10,9 @@ public class Connection
 	   private Mailbox currentMailbox;
 	   private String currentRecording;
 	   private String accumulatedKeys;
-	   private Telephone phone;
+	   private UserInterface phone;
 	   private int state;
+	   List<UserInterface> uis;
 
 	   private static final int CONNECTED = 1;
 	   private static final int RECORDING = 2;
@@ -36,11 +38,15 @@ public class Connection
       @param s a MailSystem object
       @param p a Telephone object
    */
-   public Connection(MailSystem s, Telephone p)
+   public Connection(MailSystem s, List uis)
    {
       system = s;
-      phone = p;
+      this.uis = uis;
       resetConnection();
+   }
+   
+   public void addUI(UserInterface ui){
+	   uis.add(ui);	   
    }
 
    /**
@@ -80,7 +86,7 @@ public class Connection
    {
       if (state == RECORDING)
          currentMailbox.addMessage(new Message(currentRecording));
-      resetConnection();
+      	resetConnection();
    }
    
    public boolean isConnected() {
@@ -115,8 +121,15 @@ public class Connection
       currentRecording = "";
       accumulatedKeys = "";
       state = CONNECTED;
-      phone.speak(INITIAL_PROMPT);
+      speakToAllUIs(INITIAL_PROMPT);
+//      phone.speak(INITIAL_PROMPT);
    }
+   
+   private void speakToAllUIs(String output) {
+	   	for(UserInterface ui : uis) 
+	   		ui.speak(output);
+   }
+	   
 
    /**
       Try to connect the user with the specified mailbox.
@@ -130,7 +143,9 @@ public class Connection
          if (currentMailbox != null)
          {
             state = RECORDING;
-            phone.speak(currentMailbox.getGreeting());
+            //phone.speak(currentMailbox.getGreeting());
+            speakToAllUIs(currentMailbox.getGreeting());
+            
          }
          else
             phone.speak("Incorrect mailbox number. Try again!");
@@ -151,7 +166,8 @@ public class Connection
          if (currentMailbox.checkPasscode(accumulatedKeys))
          {
             state = MAILBOX_MENU;
-            phone.speak(MAILBOX_MENU_TEXT);
+            speakToAllUIs(MAILBOX_MENU_TEXT);
+            //phone.speak(MAILBOX_MENU_TEXT);
          }
          else
             phone.speak("Incorrect passcode. Try again!");
@@ -171,7 +187,8 @@ public class Connection
       {
          currentMailbox.setPasscode(accumulatedKeys);
          state = MAILBOX_MENU;
-         phone.speak(MAILBOX_MENU_TEXT);
+         speakToAllUIs(MAILBOX_MENU_TEXT);
+         //phone.speak(MAILBOX_MENU_TEXT);
          accumulatedKeys = "";
       }
       else
@@ -189,7 +206,8 @@ public class Connection
          currentMailbox.setGreeting(currentRecording);
          currentRecording = "";
          state = MAILBOX_MENU;
-         phone.speak(MAILBOX_MENU_TEXT);
+         //phone.speak(MAILBOX_MENU_TEXT);
+         speakToAllUIs(MAILBOX_MENU_TEXT);
       }
    }
 
@@ -202,17 +220,20 @@ public class Connection
       if (key.equals("1"))
       {
          state = MESSAGE_MENU;
-         phone.speak(MESSAGE_MENU_TEXT);
+         speakToAllUIs(MESSAGE_MENU_TEXT);
+         //phone.speak(MESSAGE_MENU_TEXT);
       }
       else if (key.equals("2"))
       {
          state = CHANGE_PASSCODE;
-         phone.speak("Enter new passcode followed by the # key");
+         speakToAllUIs("Enter new passcode followed by the # key");
+         //phone.speak("Enter new passcode followed by the # key");
       }
       else if (key.equals("3"))
       {
          state = CHANGE_GREETING;
-         phone.speak("Record your greeting, then press the # key");
+         speakToAllUIs("Record your greeting, then press the # key");
+         //phone.speak("Record your greeting, then press the # key");
       }
    }
 
@@ -229,22 +250,26 @@ public class Connection
          if (m == null) output += "No messages." + "\n";
          else output += m.getText() + "\n";
          output += MESSAGE_MENU_TEXT;
-         phone.speak(output);
+         //phone.speak(output);
+         speakToAllUIs(output);
       }
       else if (key.equals("2"))
       {
          currentMailbox.saveCurrentMessage();
-         phone.speak(MESSAGE_MENU_TEXT);
+         //phone.speak(MESSAGE_MENU_TEXT);
+         speakToAllUIs(MESSAGE_MENU_TEXT);
       }
       else if (key.equals("3"))
       {
          currentMailbox.removeCurrentMessage();
-         phone.speak(MESSAGE_MENU_TEXT);
+         //phone.speak(MESSAGE_MENU_TEXT);
+         speakToAllUIs(MESSAGE_MENU_TEXT);
       }
       else if (key.equals("4"))
       {
          state = MAILBOX_MENU;
-         phone.speak(MAILBOX_MENU_TEXT);
+         //phone.speak(MAILBOX_MENU_TEXT);
+         speakToAllUIs(MAILBOX_MENU_TEXT);
       }
    }
 
