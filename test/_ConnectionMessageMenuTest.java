@@ -1,14 +1,17 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.junit.Before;
 
 import static org.mockito.Mockito.*;
+
+import java.util.List;
 
 
 public class _ConnectionMessageMenuTest {
     Mailbox currentMailbox;
     MailSystem mailSystem;
-    Telephone phone;
+    UserInterface phone;
     Connection connection;
 
     private static String MAILBOX_MENU_TEXT = "Enter 1 to listen to your messages\n"
@@ -18,13 +21,14 @@ public class _ConnectionMessageMenuTest {
             + "Enter 2 to save the current message\n"
             + "Enter 3 to delete the current message\n"
             + "Enter 4 to return to the main menu";
-
+  
     @Before
     public void setup() {
+    	List<UserInterface> mockList = Mockito.mock(List.class);  
         currentMailbox = mock(Mailbox.class);
         mailSystem = mock(MailSystem.class);
         phone = mock(Telephone.class);
-        connection = new Connection(mailSystem, phone);
+        connection = new Connection(mailSystem, mockList);
 
         when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
         when(currentMailbox.checkPasscode("1")).thenReturn(true);

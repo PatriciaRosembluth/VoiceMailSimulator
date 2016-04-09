@@ -1,12 +1,15 @@
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.junit.Before;
 import static org.mockito.Mockito.*;
 
-public class _ConnectionNewTest {
+import java.util.List;
+
+public class _ConnectionNewTest { 
 
     Mailbox currentMailbox;
     MailSystem mailSystem;
-    Telephone phone;
+    UserInterface phone;
     Connection connection;
 
     private static String MESSAGE_MENU_TEXT = "Enter 1 to listen to the current message\n"
@@ -16,10 +19,11 @@ public class _ConnectionNewTest {
 
     @Before
     public void setup() {
+    	List<UserInterface> mockList = Mockito.mock(List.class); 
         currentMailbox = mock(Mailbox.class);
         mailSystem = mock(MailSystem.class);
-        phone = mock(Telephone.class);
-        connection = new Connection(mailSystem, phone);
+        phone = mock(UserInterface.class);
+        connection = new Connection(mailSystem, mockList);
     }
 
     @Test

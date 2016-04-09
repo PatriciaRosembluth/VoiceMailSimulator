@@ -3,27 +3,31 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 
 public class _ConnectionMailboxSystemMenuTest {
 
 	Mailbox currentMailbox;
     MailSystem mailSystem;
-    Telephone phone;
+    UserInterface phone;
     Connection connection;
 
     private static String MAILBOX_MENU_TEXT = "Enter 1 to listen to your messages\n"
                     + "Enter 2 to change your passcode\n"
-                    + "Enter 3 to change your greeting";
+                    + "Enter 3 to change your greeting"; 
    
     @Before
     public void setup() {
+    	List<UserInterface> mockList = Mockito.mock(List.class);
         currentMailbox = mock(Mailbox.class);
         mailSystem = mock(MailSystem.class);
         phone = mock(Telephone.class);
-        connection = new Connection(mailSystem, phone);
+        connection = new Connection(mailSystem, mockList);
     }
 
 	
