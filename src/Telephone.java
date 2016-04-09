@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import javax.swing.JFrame;
 
 /**
    A telephone that takes simulated keystrokes and voice input
@@ -7,6 +8,7 @@ import java.util.Scanner;
 public class Telephone implements UserInterface
 {
    private Scanner scanner;
+   private JFrame consola;
    /**
       Construct phone object.
       @param aScanner that reads text from a character-input stream
@@ -15,6 +17,10 @@ public class Telephone implements UserInterface
    {
       scanner = aScanner;
    }
+   public JFrame getJFrame(){
+	   
+		return consola;
+	}
 
    /**
       Speak a message to System.out.

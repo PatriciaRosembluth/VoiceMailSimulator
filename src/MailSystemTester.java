@@ -16,11 +16,12 @@ public class MailSystemTester
       Scanner console = new Scanner(System.in);
       List<UserInterface> uis = new ArrayList<UserInterface>();
       UserInterface consola = new Telephone(console);
-      GUIVoiceMail window = new GUIVoiceMail();
-      window.getJframe().setVisible(true);
+      UserInterface window = new GUIVoiceMail();
+      window.getJFrame().setVisible(true);
       uis.add(window);
       uis.add(consola);
       Connection c = new Connection(system, uis);        
+      window.run(c);
       consola.run(c);
    }
    

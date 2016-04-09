@@ -5,7 +5,6 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-//import java.util.Scanner;
 import javax.swing.JTextPane;
 
 public class GUIVoiceMail implements UserInterface {
@@ -14,9 +13,7 @@ public class GUIVoiceMail implements UserInterface {
 	private JTextField textFieldSpeak;
 	private JTextPane textFieldListen;
 	private JButton btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnHashTag, btnH;
-	private String input;
-	String cadena = "";
-	//private static final int MAILBOX_COUNT = 20;
+	private Connection conn;
 
 	/**
 	 * Launch the application.
@@ -39,35 +36,19 @@ public class GUIVoiceMail implements UserInterface {
 	 */
 	public GUIVoiceMail() {
 		initialize();
-		buttonAction();
 	}
 	
-	public JFrame getJframe(){
+	public JFrame getJFrame(){
 		return frmTelephone;
 	}
 	
-	@Override
 	public void speak(String output) {
 		textFieldListen.setText(output);
 	}
-	 
- 	@Override
+	
 	 public void run(Connection c) {
- 		boolean more = true;
- 	      while (more)
- 	      {
-	    	 input = buttonAction();
- 	         if (input == null) return;
- 	         if (input.equalsIgnoreCase("H"))
- 	            c.hangup();
- 	         else if (input.equalsIgnoreCase("Q"))
- 	            more = false;
- 	         else if (input.length() == 1
- 	            && "1234567890#".indexOf(input) >= 0)
- 	            c.dial(input);
- 	         else
- 	            c.record(input);
- 	      }
+		 conn = c;
+		 buttonAction();
 		
 	}
 	  
@@ -143,36 +124,40 @@ public class GUIVoiceMail implements UserInterface {
 		
 	}
 
-	private String buttonAction() {
+	private void buttonAction() {
 		btn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFieldSpeak.setText("");
 				textFieldSpeak.setText("1");
-				cadena=textFieldSpeak.getText();
+				conn.dial(textFieldSpeak.getText());
 			}
 		});
 		btn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFieldSpeak.setText("");
 				textFieldSpeak.setText("2");
+				conn.dial(textFieldSpeak.getText());
 			}
 		});
 		btn3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFieldSpeak.setText("");
 				textFieldSpeak.setText("3");
+				conn.dial(textFieldSpeak.getText());
 			}
 		});
 		btn4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFieldSpeak.setText("");
 				textFieldSpeak.setText("4");
+				conn.dial(textFieldSpeak.getText());
 			}
 		});
 		btn5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFieldSpeak.setText("");
 				textFieldSpeak.setText("5");
+				conn.dial(textFieldSpeak.getText());
 			}
 		});
 		
@@ -180,6 +165,7 @@ public class GUIVoiceMail implements UserInterface {
 			public void actionPerformed(ActionEvent e) {
 				textFieldSpeak.setText("");
 				textFieldSpeak.setText("6");
+				conn.dial(textFieldSpeak.getText());
 			}
 		});
 		
@@ -187,33 +173,44 @@ public class GUIVoiceMail implements UserInterface {
 			public void actionPerformed(ActionEvent e) {
 				textFieldSpeak.setText("");
 				textFieldSpeak.setText("7");
+				conn.dial(textFieldSpeak.getText());
 			}
 		});
 		btn8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFieldSpeak.setText("");
 				textFieldSpeak.setText("8");
+				conn.dial(textFieldSpeak.getText());
 			}
 		});
 		btn9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFieldSpeak.setText("");
 				textFieldSpeak.setText("9");
+				conn.dial(textFieldSpeak.getText());
 			}
 		});
 		btn0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFieldSpeak.setText("");
 				textFieldSpeak.setText("0");
+				conn.dial(textFieldSpeak.getText());
 			}
 		});
 		btnHashTag.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFieldSpeak.setText("");
 				textFieldSpeak.setText("#");
-				cadena = "#";
+				conn.dial(textFieldSpeak.getText());
+				textFieldSpeak.setText("");
 			}
 		});
-		return cadena;
+		btnH.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				conn.record(textFieldSpeak.getText());
+				textFieldSpeak.setText("");
+				conn.hangup();
+			}
+		});
 	}
 }
