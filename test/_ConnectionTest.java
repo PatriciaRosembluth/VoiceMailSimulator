@@ -1,7 +1,5 @@
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -30,7 +28,6 @@ public class _ConnectionTest {
 	@Test
 	public void newConnectionShouldBeConnected() {
 	    verify(window).speak("Enter mailbox number followed by #");
-	    assertEquals("Enter mailbox number followed by #",conn.getGlobalMessage());
 	    assertTrue(conn.isConnected());
 	}
 	@Test

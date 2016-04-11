@@ -112,10 +112,6 @@ public class Connection
 	 public boolean isInChangeGreeting() {
 	    return state == CHANGE_GREETING;
 	 }
-	 
-	 public String getGlobalMessage(){
-		 return globalMessage;
-	 }
 
    /**
       Reset the connection to the initial state and prompt
@@ -125,7 +121,6 @@ public class Connection
       currentRecording = "";
       accumulatedKeys = "";
       state = CONNECTED;
-      globalMessage = INITIAL_PROMPT;
       speakToAllUIs(INITIAL_PROMPT);
 //      phone.speak(INITIAL_PROMPT);
    }

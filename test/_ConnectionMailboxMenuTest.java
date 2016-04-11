@@ -10,26 +10,27 @@ import java.util.List;
  * Created by Deleguard on 4/1/16.
  */
 public class _ConnectionMailboxMenuTest {
-
-
-    Mailbox currentMailbox;
-    MailSystem mailSystem;
- 
-    Connection connection;
+	
+	List<UserInterface> mockList;
+	Mailbox mailbox;
+    MailSystem system;
     UserInterface phone;
+    UserInterface window;
+    Connection conn;
    
-   
-
     @Before
     public void setup() {
     	
-    	List<UserInterface> mockList = Mockito.mock(List.class);  
-        currentMailbox = mock(Mailbox.class);
-        mailSystem = mock(MailSystem.class);
-       
-        connection = new Connection(mailSystem, mockList);
-        when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
-        when(currentMailbox.checkPasscode("1")).thenReturn(true);
+    	mockList = mock(List.class);
+    	system = mock(MailSystem.class);
+    	phone = mock(Telephone.class);
+    	window= mock(GUIVoiceMail.class);
+	    conn = new Connection(system);
+	    conn.addUI(phone);
+	    conn.addUI(window);
+	    mailbox = mock(Mailbox.class);
+        when(system.findMailbox("1")).thenReturn(mailbox);
+        when(mailbox.checkPasscode("1")).thenReturn(true);
         inMailboxLoggedIn();
     }
 
@@ -39,31 +40,31 @@ public class _ConnectionMailboxMenuTest {
                 + "Enter 2 to save the current message\n"
                 + "Enter 3 to delete the current message\n"
                 + "Enter 4 to return to the main menu";
-        connection.dial("1");
-        assert (connection.isInMessageMenu());
+        conn.dial("1");
+        assert (conn.isInMessageMenu());
         verify(phone).speak(MESSAGE_MENU_TEXT);
     }
 
     @Test
     public void inMailboxMenuEnter2ForChangingPasscode() {
 
-        connection.dial("2");
-        assert (connection.isInChangePassword());
+        conn.dial("2");
+        assert (conn.isInChangePassword());
         verify(phone).speak("Enter new passcode followed by the # key");
     }
 
     @Test
     public void inMailboxMenuEnter3ForChangingGreeting() {
 
-        connection.dial("3");
-        assert (connection.isInChangeGreeting());
+        conn.dial("3");
+        assert (conn.isInChangeGreeting());
         verify(phone).speak("Record your greeting, then press the # key");
     }
 
     private void inMailboxLoggedIn() {
-        connection.dial("1");
-        connection.dial("#");
-        connection.dial("1");
-        connection.dial("#");
+        conn.dial("1");
+        conn.dial("#");
+        conn.dial("1");
+        conn.dial("#");
     }
 }

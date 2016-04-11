@@ -12,10 +12,12 @@ import org.mockito.Mockito;
 
 public class _ConnectionMailboxSystemMenuTest {
 
-	Mailbox currentMailbox;
-    MailSystem mailSystem;
+	List<UserInterface> mockList;
+	Mailbox mailbox;
+    MailSystem system;
     UserInterface phone;
-    Connection connection;
+    UserInterface window;
+    Connection conn;
 
     private static String MAILBOX_MENU_TEXT = "Enter 1 to listen to your messages\n"
                     + "Enter 2 to change your passcode\n"
@@ -23,45 +25,48 @@ public class _ConnectionMailboxSystemMenuTest {
    
     @Before
     public void setup() {
-    	List<UserInterface> mockList = Mockito.mock(List.class);
-        currentMailbox = mock(Mailbox.class);
-        mailSystem = mock(MailSystem.class);
-        phone = mock(Telephone.class);
-        connection = new Connection(mailSystem, mockList);
+    	mockList = mock(List.class);
+    	system = mock(MailSystem.class);
+    	phone = mock(Telephone.class);
+    	window= mock(GUIVoiceMail.class);
+	    conn = new Connection(system);
+	    conn.addUI(phone);
+	    conn.addUI(window);
+	    mailbox = mock(Mailbox.class);
     }
 
 	
 	@Test
     public void inMailSystemMenuItShouldChangePasscode() {
-        when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
-        when(currentMailbox.checkPasscode("1")).thenReturn(true);
+        when(system.findMailbox("1")).thenReturn(mailbox);
+        when(mailbox.checkPasscode("1")).thenReturn(true);
 
-        connection.dial("1");
-        connection.dial("#");
-        connection.dial("1");
-        connection.dial("#");
-        connection.dial("2");
-        connection.dial("9");
-        connection.dial("#");
-        verify(currentMailbox).setPasscode("9");
-        assert (connection.isInMailBoxMenu());
+        conn.dial("1");
+        conn.dial("#");
+        conn.dial("1");
+        conn.dial("#");
+        conn.dial("2");
+        conn.dial("9");
+        conn.dial("#");
+        verify(mailbox).setPasscode("9");
+        assert (conn.isInMailBoxMenu());
         verify(phone,times(2)).speak(MAILBOX_MENU_TEXT);
     }
 
     @Test
     public void inMailSystemMenuShouldChangeGreeting(){
-        when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
-        when(currentMailbox.checkPasscode("1")).thenReturn(true);
+        when(system.findMailbox("1")).thenReturn(mailbox);
+        when(mailbox.checkPasscode("1")).thenReturn(true);
 
-        connection.dial("1");
-        connection.dial("#");
-        connection.dial("1");
-        connection.dial("#");
-        connection.dial("3");
-        connection.record("Greeting");
-        connection.dial("#");
-        verify(currentMailbox).setGreeting("Greeting");
-        assert(connection.isInMailBoxMenu());
+        conn.dial("1");
+        conn.dial("#");
+        conn.dial("1");
+        conn.dial("#");
+        conn.dial("3");
+        conn.record("Greeting");
+        conn.dial("#");
+        verify(mailbox).setGreeting("Greeting");
+        assert(conn.isInMailBoxMenu());
         verify(phone,times(2)).speak(MAILBOX_MENU_TEXT);
     }
 

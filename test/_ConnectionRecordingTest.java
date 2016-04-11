@@ -7,10 +7,12 @@ import java.util.List;
 
 public class _ConnectionRecordingTest {
 
-    Mailbox currentMailbox;
-    MailSystem mailSystem;
+	List<UserInterface> mockList;
+	Mailbox mailbox;
+    MailSystem system;
     UserInterface phone;
-    Connection connection;
+    UserInterface window;
+    Connection conn;
     
 
     private static String MAILBOX_MENU_TEXT = "Enter 1 to listen to your messages\n"
@@ -19,36 +21,39 @@ public class _ConnectionRecordingTest {
 
     @Before
     public void setup() {
-    	List<UserInterface> mockList = Mockito.mock(List.class);
-        currentMailbox = mock(Mailbox.class);
-        mailSystem = mock(MailSystem.class);
-        phone = mock(Telephone.class);
-        connection = new Connection(mailSystem, mockList);
+    	mockList = mock(List.class);
+    	system = mock(MailSystem.class);
+    	phone = mock(Telephone.class);
+    	window= mock(GUIVoiceMail.class);
+	    conn = new Connection(system);
+	    conn.addUI(phone);
+	    conn.addUI(window);
+	    mailbox = mock(Mailbox.class);
     }
 
     @Test
     public void inLogItShouldVerifiPassShowMessageAndSetStateToMailBoxMenu() {
 
-        when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
-        when(currentMailbox.checkPasscode("2")).thenReturn(true);
+        when(system.findMailbox("1")).thenReturn(mailbox);
+        when(mailbox.checkPasscode("2")).thenReturn(true);
 
-        connection.dial("1");
-        connection.dial("#");
-        connection.dial("2");
-        connection.dial("#");
+        conn.dial("1");
+        conn.dial("#");
+        conn.dial("2");
+        conn.dial("#");
         verify(phone).speak(MAILBOX_MENU_TEXT);
-        assert (connection.isInMailBoxMenu());
+        assert (conn.isInMailBoxMenu());
     }
 
     @Test
     public void inLogItShouldVerifiPassReturnFalseAndShowErrorMessage() {
-        when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
-        when(currentMailbox.checkPasscode("2")).thenReturn(false);
+        when(system.findMailbox("1")).thenReturn(mailbox);
+        when(mailbox.checkPasscode("2")).thenReturn(false);
 
-        connection.dial("1");
-        connection.dial("#");
-        connection.dial("2");
-        connection.dial("#");
+        conn.dial("1");
+        conn.dial("#");
+        conn.dial("2");
+        conn.dial("#");
         verify(phone).speak("Incorrect passcode. Try again!");
     }
 }

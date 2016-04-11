@@ -7,10 +7,12 @@ import java.util.List;
 
 public class _ConnectionNewTest { 
 
-    Mailbox currentMailbox;
-    MailSystem mailSystem;
+	List<UserInterface> mockList;
+	Mailbox mailbox;
+    MailSystem system;
     UserInterface phone;
-    Connection connection;
+    UserInterface window;
+    Connection conn;
 
     private static String MESSAGE_MENU_TEXT = "Enter 1 to listen to the current message\n"
                     + "Enter 2 to save the current message\n"
@@ -19,53 +21,56 @@ public class _ConnectionNewTest {
 
     @Before
     public void setup() {
-    	List<UserInterface> mockList = Mockito.mock(List.class); 
-        currentMailbox = mock(Mailbox.class);
-        mailSystem = mock(MailSystem.class);
-        phone = mock(UserInterface.class);
-        connection = new Connection(mailSystem, mockList);
+    	mockList = mock(List.class);
+    	system = mock(MailSystem.class);
+    	phone = mock(Telephone.class);
+    	window= mock(GUIVoiceMail.class);
+	    conn = new Connection(system);
+	    conn.addUI(phone);
+	    conn.addUI(window);
+	    mailbox = mock(Mailbox.class);
     }
 
     @Test
     public void newConnectionShouldShowInitialPromotAndSetStateToConnected() {
-        verify(phone).speak("Enter mailbox number followed by #");
-        assert (connection.isConnected());
+        verify(phone,times(2)).speak("Enter mailbox number followed by #");
+        assert (conn.isConnected());
     }
 
     @Test
     public void asConnectedDial1shouldGetMailBoxSpeakGreetingAndSetStateToRecording() {
-        when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
-        connection.dial("1");
-        connection.dial("#");
-        verify(phone).speak(currentMailbox.getGreeting());
-        assert (connection.isRecording());
+        when(system.findMailbox("1")).thenReturn(mailbox);
+        conn.dial("1");
+        conn.dial("#");
+        verify(phone).speak(mailbox.getGreeting());
+        assert (conn.isRecording());
     }
 
     @Test
     public void asConnectedDial10shouldGetNullSpeakErrorMsjAndSetStateToRecording() {
-        when(mailSystem.findMailbox("10")).thenReturn(null);
-        connection.dial("1");
-        connection.dial("#");
+        when(system.findMailbox("10")).thenReturn(null);
+        conn.dial("1");
+        conn.dial("#");
         verify(phone).speak("Incorrect mailbox number. Try again!");
     }
 
     @Test
     public void afterRecordingHangoutShouldSaveAMessageAndResetConnection(){
         String msgText = "This is a new message.";
-        when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
-        when(currentMailbox.checkPasscode("1")).thenReturn(true);
-        when(currentMailbox.getCurrentMessage()).thenReturn(new Message(msgText));
+        when(system.findMailbox("1")).thenReturn(mailbox);
+        when(mailbox.checkPasscode("1")).thenReturn(true);
+        when(mailbox.getCurrentMessage()).thenReturn(new Message(msgText));
 
-        connection.dial("1");
-        connection.dial("#");
-        connection.dial(msgText);
-        connection.hangup();
-        connection.dial("1");
-        connection.dial("#");
-        connection.dial("1");
-        connection.dial("#");
-        connection.dial("1");
-        connection.dial("1");
+        conn.dial("1");
+        conn.dial("#");
+        conn.dial(msgText);
+        conn.hangup();
+        conn.dial("1");
+        conn.dial("#");
+        conn.dial("1");
+        conn.dial("#");
+        conn.dial("1");
+        conn.dial("1");
         verify(phone).speak(msgText+"\n"+MESSAGE_MENU_TEXT);
     }
 }

@@ -9,10 +9,12 @@ import java.util.List;
 
 
 public class _ConnectionMessageMenuTest {
-    Mailbox currentMailbox;
-    MailSystem mailSystem;
+	List<UserInterface> mockList;
+	Mailbox mailbox;
+    MailSystem system;
     UserInterface phone;
-    Connection connection;
+    UserInterface window;
+    Connection conn;
 
     private static String MAILBOX_MENU_TEXT = "Enter 1 to listen to your messages\n"
             + "Enter 2 to change your passcode\n"
@@ -24,22 +26,25 @@ public class _ConnectionMessageMenuTest {
   
     @Before
     public void setup() {
-    	List<UserInterface> mockList = Mockito.mock(List.class);  
-        currentMailbox = mock(Mailbox.class);
-        mailSystem = mock(MailSystem.class);
-        phone = mock(Telephone.class);
-        connection = new Connection(mailSystem, mockList);
+    	mockList = mock(List.class);
+    	system = mock(MailSystem.class);
+    	phone = mock(Telephone.class);
+    	window= mock(GUIVoiceMail.class);
+	    conn = new Connection(system);
+	    conn.addUI(phone);
+	    conn.addUI(window);
+	    mailbox = mock(Mailbox.class);
 
-        when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
-        when(currentMailbox.checkPasscode("1")).thenReturn(true);
+        when(system.findMailbox("1")).thenReturn(mailbox);
+        when(mailbox.checkPasscode("1")).thenReturn(true);
         dialToMailboxMenu();
 
     }
 
     @Test
     public void inMessageMenuListenMessageNoMessagesItShouldShowError(){
-        when(currentMailbox.getCurrentMessage()).thenReturn(null);
-        connection.dial("1");
+        when(mailbox.getCurrentMessage()).thenReturn(null);
+        conn.dial("1");
         verify(phone).speak("No messages.\n"+MESSAGE_MENU_TEXT);
     }
 
@@ -47,39 +52,39 @@ public class _ConnectionMessageMenuTest {
     @Test
     public void inMessageMenuListenCurrentMessageShouldShowIT(){
         Message message = new Message("This is a message.");
-        when(currentMailbox.getCurrentMessage()).thenReturn(message);
-        connection.dial("1");
+        when(mailbox.getCurrentMessage()).thenReturn(message);
+        conn.dial("1");
         assertEquals("This is a message.",message.getText());
         verify(phone).speak("This is a message.\n"+MESSAGE_MENU_TEXT);
     }
 
     @Test
     public void inMessageMenuSaveCurrentMessage(){
-        connection.dial("2");
-        verify(currentMailbox).saveCurrentMessage();
+        conn.dial("2");
+        verify(mailbox).saveCurrentMessage();
         verify(phone,times(2)).speak(MESSAGE_MENU_TEXT);
     }
 
     @Test
     public void inMessageMenuRemoveCurrentMessage() {
-        connection.dial("3");
-        verify(currentMailbox).removeCurrentMessage();
+        conn.dial("3");
+        verify(mailbox).removeCurrentMessage();
         verify(phone,times(2)).speak(MESSAGE_MENU_TEXT);
     }
 
     @Test
     public void inMessageMenuReturnToMailboxMenu(){
-        connection.dial("4");
-        assert (connection.isInMailBoxMenu());
+        conn.dial("4");
+        assert (conn.isInMailBoxMenu());
         verify(phone,times(2)).speak(MAILBOX_MENU_TEXT);
     }
 
     private void dialToMailboxMenu() {
-        connection.dial("1");
-        connection.dial("#");
-        connection.dial("1");
-        connection.dial("#");
-        connection.dial("1");
+        conn.dial("1");
+        conn.dial("#");
+        conn.dial("1");
+        conn.dial("#");
+        conn.dial("1");
     }
 
 }

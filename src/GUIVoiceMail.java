@@ -127,78 +127,79 @@ public class GUIVoiceMail implements UserInterface {
 	private void buttonAction() {
 		btn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textFieldSpeak.setText("");
 				textFieldSpeak.setText("1");
 				conn.dial(textFieldSpeak.getText());
-				textFieldSpeak.setText("");
 			}
 		});
 		btn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textFieldSpeak.setText("");
 				textFieldSpeak.setText("2");
 				conn.dial(textFieldSpeak.getText());
-				textFieldSpeak.setText("");
 			}
 		});
 		btn3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textFieldSpeak.setText("");
 				textFieldSpeak.setText("3");
 				conn.dial(textFieldSpeak.getText());
-				textFieldSpeak.setText("");
 			}
 		});
 		btn4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textFieldSpeak.setText("");
 				textFieldSpeak.setText("4");
 				conn.dial(textFieldSpeak.getText());
-				textFieldSpeak.setText("");
 			}
 		});
 		btn5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textFieldSpeak.setText("");
 				textFieldSpeak.setText("5");
 				conn.dial(textFieldSpeak.getText());
-				textFieldSpeak.setText("");
 			}
 		});
 		
 		btn6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textFieldSpeak.setText("");
 				textFieldSpeak.setText("6");
 				conn.dial(textFieldSpeak.getText());
-				textFieldSpeak.setText("");
 			}
 		});
 		
 		btn7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textFieldSpeak.setText("");
 				textFieldSpeak.setText("7");
 				conn.dial(textFieldSpeak.getText());
-				textFieldSpeak.setText("");
 			}
 		});
 		btn8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textFieldSpeak.setText("");
 				textFieldSpeak.setText("8");
 				conn.dial(textFieldSpeak.getText());
-				textFieldSpeak.setText("");
 			}
 		});
 		btn9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textFieldSpeak.setText("");
 				textFieldSpeak.setText("9");
 				conn.dial(textFieldSpeak.getText());
-				textFieldSpeak.setText("");
 			}
 		});
 		btn0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textFieldSpeak.setText("");
 				textFieldSpeak.setText("0");
 				conn.dial(textFieldSpeak.getText());
-				textFieldSpeak.setText("");
 			}
 		});
 		btnHashTag.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textFieldSpeak.setText("");
 				textFieldSpeak.setText("#");
 				conn.dial(textFieldSpeak.getText());
 				textFieldSpeak.setText("");
