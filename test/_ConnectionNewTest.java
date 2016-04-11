@@ -7,7 +7,7 @@ import java.util.List;
 
 public class _ConnectionNewTest { 
 
-	List<UserInterface> mockList;
+	List<UserInterface> interfaceList;
 	Mailbox mailbox;
     MailSystem system;
     UserInterface phone;
@@ -21,7 +21,7 @@ public class _ConnectionNewTest {
 
     @Before
     public void setup() {
-    	mockList = mock(List.class);
+    	interfaceList = mock(List.class);
     	system = mock(MailSystem.class);
     	phone = mock(Telephone.class);
     	window= mock(GUIVoiceMail.class);

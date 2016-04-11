@@ -10,10 +10,8 @@ public class Connection
 	   private Mailbox currentMailbox;
 	   private String currentRecording;
 	   private String accumulatedKeys;
-	   //private UserInterface phone;
 	   private int state;
-	   List<UserInterface> uis= new ArrayList<UserInterface>();;
-	   private String globalMessage;
+	   List<UserInterface> uis= new ArrayList<UserInterface>();
 
 	   private static final int CONNECTED = 1;
 	   private static final int RECORDING = 2;
@@ -122,7 +120,6 @@ public class Connection
       accumulatedKeys = "";
       state = CONNECTED;
       speakToAllUIs(INITIAL_PROMPT);
-//      phone.speak(INITIAL_PROMPT);
    }
    
    private void speakToAllUIs(String output) {
@@ -144,12 +141,10 @@ public class Connection
          if (currentMailbox != null)
          {
             state = RECORDING;
-            //phone.speak(currentMailbox.getGreeting());
             speakToAllUIs(currentMailbox.getGreeting());
             
          }
          else
-            //phone.speak("Incorrect mailbox number. Try again!");
         	 speakToAllUIs("Incorrect mailbox number. Try again!");
          accumulatedKeys = "";
       }
@@ -169,10 +164,8 @@ public class Connection
          {
             state = MAILBOX_MENU;
             speakToAllUIs(MAILBOX_MENU_TEXT);
-            //phone.speak(MAILBOX_MENU_TEXT);
          }
          else
-            //phone.speak("Incorrect passcode. Try again!");
         	 speakToAllUIs("Incorrect passcode. Try again!");
          accumulatedKeys = "";
       }
@@ -191,7 +184,6 @@ public class Connection
          currentMailbox.setPasscode(accumulatedKeys);
          state = MAILBOX_MENU;
          speakToAllUIs(MAILBOX_MENU_TEXT);
-         //phone.speak(MAILBOX_MENU_TEXT);
          accumulatedKeys = "";
       }
       else
@@ -209,7 +201,6 @@ public class Connection
          currentMailbox.setGreeting(currentRecording);
          currentRecording = "";
          state = MAILBOX_MENU;
-         //phone.speak(MAILBOX_MENU_TEXT);
          speakToAllUIs(MAILBOX_MENU_TEXT);
       }
    }
@@ -224,19 +215,16 @@ public class Connection
       {
          state = MESSAGE_MENU;
          speakToAllUIs(MESSAGE_MENU_TEXT);
-         //phone.speak(MESSAGE_MENU_TEXT);
       }
       else if (key.equals("2"))
       {
          state = CHANGE_PASSCODE;
          speakToAllUIs("Enter new passcode followed by the # key");
-         //phone.speak("Enter new passcode followed by the # key");
       }
       else if (key.equals("3"))
       {
          state = CHANGE_GREETING;
          speakToAllUIs("Record your greeting, then press the # key");
-         //phone.speak("Record your greeting, then press the # key");
       }
    }
 
@@ -253,25 +241,21 @@ public class Connection
          if (m == null) output += "No messages." + "\n";
          else output += m.getText() + "\n";
          output += MESSAGE_MENU_TEXT;
-         //phone.speak(output);
          speakToAllUIs(output);
       }
       else if (key.equals("2"))
       {
          currentMailbox.saveCurrentMessage();
-         //phone.speak(MESSAGE_MENU_TEXT);
          speakToAllUIs(MESSAGE_MENU_TEXT);
       }
       else if (key.equals("3"))
       {
          currentMailbox.removeCurrentMessage();
-         //phone.speak(MESSAGE_MENU_TEXT);
          speakToAllUIs(MESSAGE_MENU_TEXT);
       }
       else if (key.equals("4"))
       {
          state = MAILBOX_MENU;
-         //phone.speak(MAILBOX_MENU_TEXT);
          speakToAllUIs(MAILBOX_MENU_TEXT);
       }
    }

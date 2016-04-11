@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public class _ConnectionMessageMenuTest {
-	List<UserInterface> mockList;
+	List<UserInterface> interfaceList;
 	Mailbox mailbox;
     MailSystem system;
     UserInterface phone;
@@ -26,7 +26,7 @@ public class _ConnectionMessageMenuTest {
   
     @Before
     public void setup() {
-    	mockList = mock(List.class);
+    	interfaceList = mock(List.class);
     	system = mock(MailSystem.class);
     	phone = mock(Telephone.class);
     	window= mock(GUIVoiceMail.class);

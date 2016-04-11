@@ -6,7 +6,7 @@ import static org.mockito.Mockito.*;
 import java.util.List;
 
 public class _ConnectionTest {
-	List<UserInterface> mockList;
+	List<UserInterface> interfaceList;
 	Mailbox mailbox;
     MailSystem system;
     UserInterface phone;
@@ -15,7 +15,7 @@ public class _ConnectionTest {
     
     @Before
     public void setup() {
-    	mockList = mock(List.class);
+    	interfaceList = mock(List.class);
     	system = mock(MailSystem.class);
     	phone = mock(Telephone.class);
     	window= mock(GUIVoiceMail.class);
