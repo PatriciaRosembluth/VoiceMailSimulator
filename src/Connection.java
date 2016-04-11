@@ -10,9 +10,10 @@ public class Connection
 	   private Mailbox currentMailbox;
 	   private String currentRecording;
 	   private String accumulatedKeys;
-	   private UserInterface phone;
+	   //private UserInterface phone;
 	   private int state;
-	   List<UserInterface> uis;
+	   List<UserInterface> uis= new ArrayList<UserInterface>();;
+	   private String globalMessage;
 
 	   private static final int CONNECTED = 1;
 	   private static final int RECORDING = 2;
@@ -38,15 +39,14 @@ public class Connection
       @param s a MailSystem object
       @param p a Telephone object
    */
-   public Connection(MailSystem s, List uis)
+   public Connection(MailSystem s)
    {
       system = s;
-      this.uis = uis;
-      resetConnection();
    }
    
    public void addUI(UserInterface ui){
-	   uis.add(ui);	   
+	   uis.add(ui);	 
+	   resetConnection();
    }
 
    /**
@@ -112,6 +112,10 @@ public class Connection
 	 public boolean isInChangeGreeting() {
 	    return state == CHANGE_GREETING;
 	 }
+	 
+	 public String getGlobalMessage(){
+		 return globalMessage;
+	 }
 
    /**
       Reset the connection to the initial state and prompt
@@ -121,13 +125,15 @@ public class Connection
       currentRecording = "";
       accumulatedKeys = "";
       state = CONNECTED;
+      globalMessage = INITIAL_PROMPT;
       speakToAllUIs(INITIAL_PROMPT);
 //      phone.speak(INITIAL_PROMPT);
    }
    
    private void speakToAllUIs(String output) {
-	   	for(UserInterface ui : uis) 
+	   	for(UserInterface ui : uis) {
 	   		ui.speak(output);
+	   	}
    }
 	   
 
@@ -148,7 +154,8 @@ public class Connection
             
          }
          else
-            phone.speak("Incorrect mailbox number. Try again!");
+            //phone.speak("Incorrect mailbox number. Try again!");
+        	 speakToAllUIs("Incorrect mailbox number. Try again!");
          accumulatedKeys = "";
       }
       else
@@ -170,7 +177,8 @@ public class Connection
             //phone.speak(MAILBOX_MENU_TEXT);
          }
          else
-            phone.speak("Incorrect passcode. Try again!");
+            //phone.speak("Incorrect passcode. Try again!");
+        	 speakToAllUIs("Incorrect passcode. Try again!");
          accumulatedKeys = "";
       }
       else

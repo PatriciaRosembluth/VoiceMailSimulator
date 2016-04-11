@@ -1,33 +1,40 @@
-import static org.junit.Assert.*;
-
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
 
 public class _ConnectionTest {
-	 UserInterface phone;
-	 List<UserInterface> mockList = Mockito.mock(List.class); 
-
+	List<UserInterface> mockList;
+	Mailbox mailbox;
+    MailSystem system;
+    UserInterface phone;
+    UserInterface window;
+    Connection conn;
+    
+    @Before
+    public void setup() {
+    	mockList = mock(List.class);
+    	system = mock(MailSystem.class);
+    	phone = mock(Telephone.class);
+    	window= mock(GUIVoiceMail.class);
+	    conn = new Connection(system);
+	    conn.addUI(phone);
+	    conn.addUI(window);
+	    mailbox = mock(Mailbox.class);
+    }
+    
 	@Test
 	public void newConnectionShouldBeConnected() {
-		MailSystem system = mock(MailSystem.class);
-	    Telephone phone = mock(Telephone.class);
-	    Connection conn = new Connection(system, mockList);
-	    
-	    verify(phone).speak("Enter mailbox number followed by #");
+	    verify(window).speak("Enter mailbox number followed by #");
+	    assertEquals("Enter mailbox number followed by #",conn.getGlobalMessage());
 	    assertTrue(conn.isConnected());
 	}
-	
-	
 	@Test
 	public void whenDialInAConnectedStateItShouldChangeToRecording() {
-		MailSystem system = mock(MailSystem.class);
-	    Telephone phone = mock(Telephone.class);
-	    Connection conn = new Connection(system, mockList);
-	    Mailbox mailbox = mock(Mailbox.class);
 	    
 	    when(system.findMailbox("1")).thenReturn(mailbox);
 	    when(mailbox.getGreeting()).thenReturn("Hola mailbox");
@@ -42,10 +49,7 @@ public class _ConnectionTest {
 	
 	@Test
 	public void whenDialInAConnectedStateAndNoMailboxFoundItShouldShowAnErrorMessage() {
-		MailSystem system = mock(MailSystem.class);
-	    Telephone phone = mock(Telephone.class);
-	    Connection conn = new Connection(system, mockList);
-	    
+		
 	    when(system.findMailbox("10")).thenReturn(null);
 	   
 	    conn.dial("10");
@@ -55,17 +59,14 @@ public class _ConnectionTest {
 	}
 	
 	@Test
-	public void test1() {
-		MailSystem system = mock(MailSystem.class);
-	    Telephone phone = mock(Telephone.class);
-	    Connection conn = new Connection(system, mockList);
-	    Mailbox currentMailbox = mock(Mailbox.class);
+	public void enterMailBoxMenu() {
+		
 	    String mailboxText = "Enter 1 to listen to your messages\n"
 	            + "Enter 2 to change your passcode\n"
 	            + "Enter 3 to change your greeting";
 	    
-	    when(system.findMailbox("1")).thenReturn(currentMailbox);
-	    when(currentMailbox.checkPasscode("1")).thenReturn(true);
+	    when(system.findMailbox("1")).thenReturn(mailbox);
+	    when(mailbox.checkPasscode("1")).thenReturn(true);
 	    
 	    conn.dial("1");
 	    conn.dial("#");
@@ -78,15 +79,10 @@ public class _ConnectionTest {
 	}
 	
 	@Test
-	public void test2() {
-		MailSystem system = mock(MailSystem.class);
-	    Telephone phone = mock(Telephone.class);
-	    Connection conn = new Connection(system, mockList);
-	    Mailbox currentMailbox = mock(Mailbox.class);
-	    String mailboxText = "Incorrect passcode. Try again!";
+	public void incorrectPassCode() {
 	    
-	    when(system.findMailbox("1")).thenReturn(currentMailbox);
-	    when(currentMailbox.checkPasscode("2")).thenReturn(false);
+	    when(system.findMailbox("1")).thenReturn(mailbox);
+	    when(mailbox.checkPasscode("2")).thenReturn(false);
 	    
 	    conn.dial("1");
 	    conn.dial("#");
@@ -94,21 +90,16 @@ public class _ConnectionTest {
 	    conn.dial("#");
 	    
 	    assertFalse(conn.isInMailBoxMenu());
-	    verify(phone).speak(mailboxText);
+	    verify(phone).speak("Incorrect passcode. Try again!");
 	
 	}
 	
 	@Test
 	public void getIntoChangePasscodeOption(){
-		MailSystem system = mock(MailSystem.class);
-	    Telephone phone = mock(Telephone.class);
-	    Connection conn = new Connection(system, mockList);
-	    Mailbox currentMailbox = mock(Mailbox.class);
 	    
-	    when(system.findMailbox("1")).thenReturn(currentMailbox);
-	    when(currentMailbox.checkPasscode("1")).thenReturn(true);
+	    when(system.findMailbox("1")).thenReturn(mailbox);
+	    when(mailbox.checkPasscode("1")).thenReturn(true);
 	  
-	 
 	    conn.dial("1");
 	    conn.dial("#");
 	    conn.dial("1");
