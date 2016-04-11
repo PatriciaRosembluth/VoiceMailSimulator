@@ -1,14 +1,17 @@
 import org.junit.Test;
-
+import org.mockito.Mockito;
 import org.junit.Before;
 import static org.mockito.Mockito.*;
+
+import java.util.List;
 
 public class _ConnectionRecordingTest {
 
     Mailbox currentMailbox;
     MailSystem mailSystem;
-    Telephone phone;
+    UserInterface phone;
     Connection connection;
+    
 
     private static String MAILBOX_MENU_TEXT = "Enter 1 to listen to your messages\n"
             + "Enter 2 to change your passcode\n"
@@ -16,10 +19,11 @@ public class _ConnectionRecordingTest {
 
     @Before
     public void setup() {
+    	List<UserInterface> mockList = Mockito.mock(List.class);
         currentMailbox = mock(Mailbox.class);
         mailSystem = mock(MailSystem.class);
         phone = mock(Telephone.class);
-        connection = new Connection(mailSystem, phone);
+        connection = new Connection(mailSystem, mockList);
     }
 
     @Test

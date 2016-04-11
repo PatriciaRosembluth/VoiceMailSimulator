@@ -1,7 +1,10 @@
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
+
+import java.util.List;
 
 /**
  * Created by Deleguard on 4/1/16.
@@ -11,15 +14,20 @@ public class _ConnectionMailboxMenuTest {
 
     Mailbox currentMailbox;
     MailSystem mailSystem;
-    Telephone phone;
+ 
     Connection connection;
+    UserInterface phone;
+   
+   
 
     @Before
     public void setup() {
+    	
+    	List<UserInterface> mockList = Mockito.mock(List.class);  
         currentMailbox = mock(Mailbox.class);
         mailSystem = mock(MailSystem.class);
-        phone = mock(Telephone.class);
-        connection = new Connection(mailSystem, phone);
+       
+        connection = new Connection(mailSystem, mockList);
         when(mailSystem.findMailbox("1")).thenReturn(currentMailbox);
         when(currentMailbox.checkPasscode("1")).thenReturn(true);
         inMailboxLoggedIn();
