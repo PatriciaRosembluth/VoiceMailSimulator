@@ -19,7 +19,5 @@ public class MailSystemTester
       c.addUI(consola);
       window.run(c);
       consola.run(c);
-      
    }
-   
 }

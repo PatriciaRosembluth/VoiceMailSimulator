@@ -10,6 +10,7 @@ public class Mailbox
    */
 	private MessageQueue newMessages;
 	private MessageQueue keptMessages;
+	private PhoneBook contacts;
 	private String greeting;
 	private String passcode;
 	
@@ -19,6 +20,7 @@ public class Mailbox
       greeting = aGreeting;
       newMessages = new MessageQueue();
       keptMessages = new MessageQueue();
+      contacts = new PhoneBook();
    }
 
    /**
@@ -39,6 +41,10 @@ public class Mailbox
    {
       newMessages.add(aMessage);
    }
+   
+   public void addContact(Contact aContact){
+	   contacts.add(aContact);
+   }
 
    /**
       Get the current message.
@@ -53,6 +59,13 @@ public class Mailbox
       else
          return null;
    }
+   
+   public Contact getContact(int id){
+	   if(contacts.size()>0)
+		   return contacts.peek(id);
+	   else
+		   return null;
+   }
 
    /**
       Remove the current message from the mailbox.
@@ -66,6 +79,13 @@ public class Mailbox
          return keptMessages.remove();
       else
          return null;
+   }
+   
+   public Contact removeContact(int id){
+	   if(contacts.size()>0)
+		   return contacts.remove(id);
+	   else
+		   return null;
    }
 
    /**

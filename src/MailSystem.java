@@ -5,6 +5,7 @@ import java.util.ArrayList;
 */
 public class MailSystem
 {
+	private ArrayList<Mailbox> mailboxes;
    /**
       Constructs a mail system with a given number of mailboxes
       @param mailboxCount the number of mailboxes
@@ -35,6 +36,4 @@ public class MailSystem
          return  mailboxes.get(i - 1);
       else return null;
    }
-
-   private ArrayList<Mailbox> mailboxes;
 }
