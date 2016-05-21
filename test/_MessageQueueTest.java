@@ -2,6 +2,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import source.Message;
+import source.MessageQueue;
+
 
 public class _MessageQueueTest {
 

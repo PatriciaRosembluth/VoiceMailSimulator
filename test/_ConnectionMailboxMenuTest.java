@@ -2,7 +2,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import source.ActualConnection;
+import source.MailSystem;
+import source.Mailbox;
+
+import Interfaces.GUIVoiceMail;
+import Interfaces.Telephone;
+import Interfaces.UserInterface;
+
 import static org.mockito.Mockito.*;
+
 
 import java.util.List;
 
@@ -16,7 +25,7 @@ public class _ConnectionMailboxMenuTest {
     MailSystem system;
     UserInterface phone;
     UserInterface window;
-    Connection conn;
+    ActualConnection conn;
    
     @Before
     public void setup() {
@@ -25,7 +34,7 @@ public class _ConnectionMailboxMenuTest {
     	system = mock(MailSystem.class);
     	phone = mock(Telephone.class);
     	window= mock(GUIVoiceMail.class);
-	    conn = new Connection(system);
+	    conn = new ActualConnection(system);
 	    conn.addUI(phone);
 	    conn.addUI(window);
 	    mailbox = mock(Mailbox.class);

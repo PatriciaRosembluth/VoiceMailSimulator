@@ -2,6 +2,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import source.Mailbox;
+import source.Message;
+
 public class _MailBoxTest {
 	@Test
 	public void VerificarCodigoDePaso() {

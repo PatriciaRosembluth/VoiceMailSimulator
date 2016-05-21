@@ -2,6 +2,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import source.Mailbox;
+import source.Message;
+
 
 public class _MailSystemTest {
 
