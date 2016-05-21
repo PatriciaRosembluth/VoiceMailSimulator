@@ -4,6 +4,7 @@ package Interfaces;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 
 import java.sql.*;
+
 import javax.swing.*;
 
 import source.ActualConnection;
@@ -24,6 +26,7 @@ public class GUIVoiceMail implements UserInterface {
 	private JTextPane textFieldListen;
 	private JButton btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnHashTag, btnH;
 	private ActualConnection conn;
+	private String data = "";
 
 	/**
 	 * Launch the application.
@@ -139,6 +142,7 @@ public class GUIVoiceMail implements UserInterface {
 				textFieldSpeak.setText("");
 				textFieldSpeak.setText("1");
 				conn.dial(textFieldSpeak.getText());
+				data+="1";
 			}
 		});
 		btn2.addActionListener(new ActionListener() {
@@ -211,6 +215,7 @@ public class GUIVoiceMail implements UserInterface {
 				textFieldSpeak.setText("");
 				textFieldSpeak.setText("#");
 				conn.dial(textFieldSpeak.getText());
+				data+="#";
 				textFieldSpeak.setText("");
 			}
 		});
@@ -218,6 +223,16 @@ public class GUIVoiceMail implements UserInterface {
 			public void actionPerformed(ActionEvent e) {
 				conn.record(textFieldSpeak.getText());
 				conn.hangup();
+				try {
+					//String query ="INSERT INTO Messages (mailbox, message) VALUES ('" + data + "','" +textFieldSpeak.getText()+"')";
+					//statement =  connection.createStatement();
+					String query = "INSERT INTO Messages (mailbox, message) VALUES ('2#','hola')";
+					PreparedStatement pst = connection.prepareStatement(query);
+					
+					pst.executeUpdate();
+				} catch (Exception r) {
+					JOptionPane.showMessageDialog(null, r);
+				}
 				textFieldSpeak.setText("");
 			}
 		});
