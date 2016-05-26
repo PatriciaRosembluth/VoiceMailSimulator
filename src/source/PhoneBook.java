@@ -24,5 +24,10 @@ public class PhoneBook {
 	{
 	    return contacts.size();
 	}
+	 public void show(){
+		 for (Contact contact: contacts ){
+			 System.out.println(contact);
+		 }
+	 }
 	
 }

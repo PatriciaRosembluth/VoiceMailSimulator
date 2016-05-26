@@ -24,6 +24,12 @@ public class MailBoxMenuState implements ConnectionState{
 	    	  connection.currentState = new ChangeGreetingState();
 	         connection.speakToAllUIs("Record your greeting, then press the # key");
 	      }
+	      else if (key.equals("4"))
+	      {
+	         //connection.state = Connection.CHANGE_GREETING;
+	    	  connection.currentState = new ContactsState();
+	         connection.speakToAllUIs(ActualConnection.CONTACTS_MENU);
+	      }
 	   }
 	   
 	   public int getState(){

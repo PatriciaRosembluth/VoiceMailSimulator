@@ -226,7 +226,7 @@ public class GUIVoiceMail implements UserInterface {
 				try {
 					//String query ="INSERT INTO Messages (mailbox, message) VALUES ('" + data + "','" +textFieldSpeak.getText()+"')";
 					//statement =  connection.createStatement();
-					String query = "INSERT INTO Messages (mailbox, message) VALUES ('2#','hola')";
+					String query = "INSERT INTO Messages (mailbox, message) VALUES ('2#','holaaaaaa')";
 					PreparedStatement pst = connection.prepareStatement(query);
 					
 					pst.executeUpdate();
