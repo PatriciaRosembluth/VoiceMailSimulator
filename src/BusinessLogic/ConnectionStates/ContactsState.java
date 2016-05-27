@@ -2,10 +2,12 @@ package BusinessLogic.ConnectionStates;
 
 import BusinessLogic.ActualConnection;
 import BusinessLogic.PhoneBook;
+import BusinessLogic.Contact;
 
 public class ContactsState implements ConnectionState {
 	PhoneBook contacts;
-	String input;
+	String inputContact;
+	
 	
 	public int getState() {
 		// TODO Auto-generated method stub
@@ -23,16 +25,17 @@ public class ContactsState implements ConnectionState {
 		}
 		else if(key.equals("2"))
 		{
+			connection.speakToAllUIs("Enter new contact 'name-number'");
+			connection.saveContact(connection.currentRecording);
+			connection.currentRecording="";
+			connection.currentState =  new MailBoxMenuState();
+	        connection.speakToAllUIs(ActualConnection.MAILBOX_MENU_TEXT);
 			
-			if(key.equals("#"))
-			{
-				//contacts.add();
-			}
 			
 		
 		}
 		
-		// TODO Auto-generated method stub
+		 
 
 
 	}

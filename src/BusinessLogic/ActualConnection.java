@@ -12,6 +12,9 @@ public class ActualConnection
 	   public Mailbox currentMailbox;
 	   public String currentRecording;
 	   public String accumulatedKeys;
+	   public PhoneBook phoneBook;
+	   public String nameContact;
+	   public String numberContact;
 	   public ConnectionState currentState = null;
 	   int state;
 	   List<UserInterface> uis= new ArrayList<UserInterface>();
@@ -51,7 +54,7 @@ public class ActualConnection
    
    public void record(String voice)
    {
-      if (currentState.getState() == 2 || currentState.getState() == 6)
+      if (currentState.getState() == 2 || currentState.getState() == 6 || currentState.getState() == 8)
          currentRecording += voice;
    }
 
@@ -99,6 +102,13 @@ public class ActualConnection
 	   		ui.speak(output);
 	   	}
    }
+
+public void saveContact(String xContact){
+	Contact newContact=new Contact(xContact);
+	
+	phoneBook.add(newContact);
+	
+}
 }
 
 

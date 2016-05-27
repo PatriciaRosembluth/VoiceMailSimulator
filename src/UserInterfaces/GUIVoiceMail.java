@@ -245,7 +245,9 @@ public class GUIVoiceMail extends UserInterface {
 		});
 		btnSC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				conn.record(textFieldSpeak.getText());
+				
+				conn.record(textFieldSpeak.getText()) ;
+				
 			}
 		});
 	}
