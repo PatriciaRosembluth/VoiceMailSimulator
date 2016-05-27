@@ -66,7 +66,7 @@ public class GUIVoiceMail extends UserInterface {
 	private void initialize() {
 		frmTelephone = new JFrame();
 		frmTelephone.setTitle("Telephone");
-		frmTelephone.setBounds(100, 100, 291, 396);
+		frmTelephone.setBounds(100, 100, 291, 358);
 		frmTelephone.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmTelephone.getContentPane().setLayout(null);
 		
@@ -119,11 +119,11 @@ public class GUIVoiceMail extends UserInterface {
 		frmTelephone.getContentPane().add(btnH);
 		
 		btnSC = new JButton("Save Contact");
-		btnSC.setBounds(10, 253, 116, 23);
+		btnSC.setBounds(85, 253, 116, 23);
 		frmTelephone.getContentPane().add(btnSC);
 		
 		textFieldSpeak = new JTextField();
-		textFieldSpeak.setBounds(14, 323, 251, 23);
+		textFieldSpeak.setBounds(10, 287, 251, 23);
 		frmTelephone.getContentPane().add(textFieldSpeak);
 		textFieldSpeak.setColumns(10);
 		
