@@ -231,7 +231,9 @@ public class GUIVoiceMail extends UserInterface {
 				conn.record(textFieldSpeak.getText());
 				conn.hangup();
 				try {
+
 					String query ="INSERT INTO Messages (mailbox, message) VALUES ('" + data + "','" +textFieldSpeak.getText()+"')";
+
 					PreparedStatement pst = connection.prepareStatement(query);
 					pst.executeUpdate();
 					data="";
@@ -243,7 +245,9 @@ public class GUIVoiceMail extends UserInterface {
 		});
 		btnSC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				conn.record(textFieldSpeak.getText());
+				
+				conn.record(textFieldSpeak.getText()) ;
+				
 			}
 		});
 	}

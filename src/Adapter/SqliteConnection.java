@@ -6,7 +6,7 @@ public class SqliteConnection {
 	public static Connection dbConnector(){
 		try {
 			Class.forName("org.sqlite.JDBC");
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\patty\\Documents\\workspace\\VoiceMail\\VoiceMail.sqlite");
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Milenka Claure\\workspace\\VoiceMailSimulator\\VoiceMail.sqlite");
 			JOptionPane.showMessageDialog(null, "Connection Successful");
 			return conn;
 		} catch (Exception e) {

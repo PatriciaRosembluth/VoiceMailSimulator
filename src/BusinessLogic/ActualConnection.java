@@ -12,6 +12,9 @@ public class ActualConnection
 	   public Mailbox currentMailbox;
 	   public String currentRecording;
 	   public String accumulatedKeys;
+	   public PhoneBook phoneBook;
+	   public String nameContact;
+	   public String numberContact;
 	   public ConnectionState currentState = null;
 	   int state;
 	   List<UserInterface> uis= new ArrayList<UserInterface>();
@@ -20,12 +23,19 @@ public class ActualConnection
 	   public static final String MAILBOX_MENU_TEXT = 
 	         "Enter 1 to listen to your messages\n"
 	         + "Enter 2 to change your passcode\n"
-	         + "Enter 3 to change your greeting";
+	         + "Enter 3 to change your greeting\n"
+	         +"Enter 4  contacts\n";
 	   public static final String MESSAGE_MENU_TEXT = 
 	         "Enter 1 to listen to the current message\n"
 	         + "Enter 2 to save the current message\n"
 	         + "Enter 3 to delete the current message\n"
 	         + "Enter 4 to return to the main menu";
+	   
+	   public static final String CONTACTS_MENU = 
+       "Enter 1 to see contacts\n"
+       + "Enter 2 to add contact\n"
+       + "Enter 3 to delete contact\n"
+       + "Enter 4 to return to the main menu";
 	   
    public ActualConnection(MailSystem s)
    {
@@ -44,7 +54,7 @@ public class ActualConnection
    
    public void record(String voice)
    {
-      if (currentState.getState() == 2 || currentState.getState() == 6)
+      if (currentState.getState() == 2 || currentState.getState() == 6 || currentState.getState() == 8)
          currentRecording += voice;
    }
 
@@ -92,6 +102,13 @@ public class ActualConnection
 	   		ui.speak(output);
 	   	}
    }
+
+public void saveContact(String xContact){
+	Contact newContact=new Contact(xContact);
+	
+	phoneBook.add(newContact);
+	
+}
 }
 
 
